@@ -46,9 +46,11 @@ async function searchPlanet() {
     errorMessage.innerHTML = `<p class='alert'>No planets found for "${query}".</p>`;
     planetDetails.innerHTML = '';
   }
+  
 }
 
 async function showPlanetDetails(planet) {
+  errorMessage.innerHTML = '';
   planetDetails.innerHTML = `
     <h2>Planet Details</h2>
     <p><strong>Name:</strong> ${planet.name}</p>
