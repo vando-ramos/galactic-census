@@ -5,3 +5,7 @@ ul {
 button {
   margin: 5px;
 }
+
+.alert {
+  color: red;
+}

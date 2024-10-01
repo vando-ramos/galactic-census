@@ -1,5 +1,8 @@
 let planetList = document.getElementById('planet-list');
 let planetDetails = document.getElementById('planet-details');
+let searchButton = document.getElementById('search-button');
+let searchInput = document.getElementById('search-input');
+let errorMessage = document.getElementById('error-message');
 
 async function printData() {
   let res = await fetch('https://swapi.dev/api/planets/?format=json');
@@ -24,6 +27,27 @@ async function printData() {
   });     
 }
 
+async function searchPlanet() {
+  let query = searchInput.value;
+  if (!query) {
+    errorMessage.innerHTML = `<p class='alert'>Please enter a planet name!</p>`;
+    planetDetails.innerHTML = '';
+    return;
+  }
+
+  errorMessage.innerHTML = '';
+
+  let res = await fetch(`https://swapi.dev/api/planets/?search=${query}`);
+  let { results } = await res.json();
+
+  if (results.length > 0) {
+    showPlanetDetails(results[0]);
+  } else {
+    errorMessage.innerHTML = `<p class='alert'>No planets found for "${query}".</p>`;
+    planetDetails.innerHTML = '';
+  }
+}
+
 function showPlanetDetails(planet) {
   planetDetails.innerHTML = `
     <h2>Planet Details</h2>
@@ -33,5 +57,13 @@ function showPlanetDetails(planet) {
     <p><strong>Terrain:</strong> ${planet.terrain}</p>
   `;
 }
+
+searchButton.addEventListener('click', searchPlanet);
+
+searchInput.addEventListener('keydown', function(event) {
+  if (event.key === 'Enter') {
+    searchPlanet();
+  }
+});
 
 printData();
