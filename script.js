@@ -48,7 +48,7 @@ async function searchPlanet() {
   }
 }
 
-function showPlanetDetails(planet) {
+async function showPlanetDetails(planet) {
   planetDetails.innerHTML = `
     <h2>Planet Details</h2>
     <p><strong>Name:</strong> ${planet.name}</p>
@@ -56,6 +56,36 @@ function showPlanetDetails(planet) {
     <p><strong>Population:</strong> ${planet.population}</p>
     <p><strong>Terrain:</strong> ${planet.terrain}</p>
   `;
+
+  if (planet.residents.length > 0) {
+    planetDetails.innerHTML += `<table id="residents-table">
+                                <caption>Residents</caption>
+                                  <thead>
+                                    <tr>
+                                      <th>Name</th>
+                                      <th>Birth Year</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody></tbody>
+                                </table>`;
+    const residentsTableBody = document.querySelector('#residents-table tbody');
+
+    for (const residentUrl of planet.residents) {
+      const residentData = await fetchResidentData(residentUrl);
+      residentsTableBody.innerHTML += `<tr>
+                                          <td>${residentData.name}</td>
+                                          <td>${residentData.birth_year}</td>
+                                        </tr>`;
+    }
+  } else {
+    planetDetails.innerHTML += `<p class='alert'>No residents for this planet!</p>`;
+  }
+
+}
+
+async function fetchResidentData(url) {
+  let res = await fetch(url);
+  return await res.json();
 }
 
 searchButton.addEventListener('click', searchPlanet);

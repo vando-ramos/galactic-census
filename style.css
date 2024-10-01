@@ -4,8 +4,37 @@ ul {
 
 button {
   margin: 5px;
+  width: 100px;
 }
 
 .alert {
   color: red;
+}
+
+table {
+  border-top: 2px solid black;
+  width: 300px;
+  border-collapse: collapse;
+}
+
+td, th {
+  border-bottom: 1px solid black;
+  padding: 5px;
+}
+
+th {
+  border-bottom: 2px solid black;
+}
+
+tr:last-child td {
+  border-bottom:  2px solid black;
+}
+
+tr:hover {
+  background-color: rgba(128, 128, 128, 0.200);
+}
+
+caption {
+  font-weight: bold;
+  font-size: 20px;
 }
